@@ -30,6 +30,7 @@
                 <th>Description</th>
                 <th>Actions</th>
                 <th>Access</th>
+                <th>View</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +50,9 @@
                         @if($dataset->created_by == session('user_id'))
                             <a href="{{ route('datasets.access', $dataset->set_id) }}" class="btn btn-sm btn-info">Manage Access</a>
                         @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('datasets.view', $dataset->set_id) }}" class="btn btn-sm btn-info">View Data Set</a>
                     </td>
                 </tr>
             @endforeach

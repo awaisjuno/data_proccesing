@@ -7,6 +7,7 @@ use App\Models\DatasetModel;
 use App\Models\DatasetAccess;
 use App\Models\User;
 use App\Models\AccessControl;
+use App\Models\TrainingData;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
@@ -128,6 +129,35 @@ class DatasetController extends Controller
         }
 
         return view('dataset.edit', compact('dataset'));
+    }
+
+    public function view($id)
+    {
+        $dataset = DatasetModel::findOrFail($id);
+        
+        if ($dataset->created_by != session('user_id')) {
+            return redirect()->route('datasets.index')->with('error', 'Unauthorized access.');
+        }
+
+        $trainingData = TrainingData::where('set_id', $id)->get();
+
+        return view('dataset.view', compact('dataset', 'trainingData'));
+    }
+
+    public function uploadTrainingData(Request $request, $id)
+    {
+        $request->validate([
+            'data_set' => 'required|string',
+            'dataset_descrption' => 'nullable|string',
+        ]);
+
+        TrainingData::create([
+            'set_id' => $id,
+            'label' => $request->data_set,
+            'data' => $request->dataset_descrption,
+        ]);
+
+        return redirect()->route('datasets.view', $id)->with('success', 'Training data added.');
     }
 
 }

@@ -29,4 +29,7 @@ Route::middleware('web')->group(function () {
     Route::get('/datasets/access/{id}', [DatasetController::class, 'access'])->name('datasets.access');
     Route::get('/datasets/{id}/edit', [DatasetController::class, 'edit'])->name('datasets.edit');
 
+    Route::get('/datasets/{id}/view', [DatasetController::class, 'view'])->name('datasets.view');
+    Route::post('/datasets/{id}/view', [DatasetController::class, 'uploadTrainingData'])->name('datasets.uploadTrainingData');
+
 });
