@@ -39,7 +39,7 @@
                     <td>{{ $dataset->set_description }}</td>
                     <td>
                         @if($dataset->created_by == session('user_id'))
-                            <a href="{{ route('datasets.edit', $dataset->set_id) }}" class="btn btn-sm btn-warning">Update</a>
+                            <a href="{{ route('datasets.edit', $dataset->set_id) }}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="{{ route('datasets.delete', $dataset->set_id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                         @else
                             <span class="text-muted">Shared with you</span>

@@ -60,7 +60,7 @@ class DatasetController extends Controller
             'set_description' => $request->set_description,
         ]);
 
-        return redirect()->back()->with('success', 'Dataset updated.');
+        return redirect()->route('datasets.index')->with('success', 'Dataset updated.');
     }
 
     public function delete($id)
@@ -117,6 +117,17 @@ class DatasetController extends Controller
         $grantedUsers = DatasetAccess::where('set_id', $id)->with('user')->get();
 
         return view('dataset.access', compact('dataset', 'grantedUsers'));
+    }
+
+    public function edit($id)
+    {
+        $dataset = DatasetModel::findOrFail($id);
+
+        if ($dataset->created_by != session('user_id')) {
+            return redirect()->route('datasets.index')->with('error', 'Unauthorized access.');
+        }
+
+        return view('dataset.edit', compact('dataset'));
     }
 
 }
